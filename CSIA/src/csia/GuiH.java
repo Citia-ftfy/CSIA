@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 import gui.*;
@@ -24,15 +26,49 @@ public class GuiH extends JFrame implements Runnable,ActionListener{
 	
 	public GuiH(int w,int h){
 		super("CSIA");
+		this.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                //System.exit(0);// close 
+                
+                    
+            }
+        });
 		
 		WIDTH=w;
 		HEIGHT=h;
 		setSize(WIDTH,HEIGHT);
 		homePanel = new HomeScreen();
 		schedulePanel = new CheckSchedule();
+		schedulePanel.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                //System.exit(0);// close 
+            	schedulePanel.setVisible(false);
+            	setVisible(true);
+                
+                    
+            }
+        });
 		teamsPanel = new TeamsManager();
 		tourneyPanel = new TournamentManager();
+		tourneyPanel.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                //System.exit(0);// close 
+            	tourneyPanel.setVisible(false);
+            	setVisible(true);
+                
+                    
+            }
+        });
 		statsPanel = new StatsScreen();
+		teamsPanel.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                //System.exit(0);// close 
+            	teamsPanel.setVisible(false);
+            	setVisible(true);
+                
+                    
+            }
+        });
 		
 		
 		add(homePanel);
@@ -40,6 +76,7 @@ public class GuiH extends JFrame implements Runnable,ActionListener{
 		new Thread(this).start();
 		
 		((Component) homePanel).setFocusable(true);
+		//((Component) tourneyPanel).setFocusable(true);
 		setVisible(true);
 		//TODO CHANGE THIS \/
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,13 +88,19 @@ public class GuiH extends JFrame implements Runnable,ActionListener{
 	public void run() {
 		try {
 			while(true) {
-				Thread.currentThread().sleep(5);
+				Thread.currentThread();
+				Thread.sleep(5);
 				if(homePanel.getIsBB()) {
 					actionPerformed(homePanel.getBb());
 					//System.out.println(homePanel.getBb());
 					homePanel.setIsBB(false);
 				}
-				
+				if(tourneyPanel.getIsBB()) {
+					actionPerformed(tourneyPanel.getBb());
+					//System.out.println(homePanel.getBb());
+					tourneyPanel.setIsBB(false);
+				}
+				//revalidate();
 				
 				
 				
@@ -74,23 +117,29 @@ public class GuiH extends JFrame implements Runnable,ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		//System.out.println(e);
-		if(panelon==homePanel) {
+		
 			if(homePanel.getManTourBtn()==e.getSource()) {
-				remove(homePanel);
-				add(tourneyPanel);
-				panelon=tourneyPanel;
+				//remove(homePanel);
+				setVisible(false);
+				tourneyPanel.setVisible(true);
+				//add(tourneyPanel);
+				//panelon=tourneyPanel;
 				revalidate();
 			}
 			if(homePanel.getManTeamBtn()==e.getSource()) {
-				remove(homePanel);
-				add(teamsPanel);
-				panelon=teamsPanel;
+				//remove(homePanel);
+				setVisible(false);
+				teamsPanel.setVisible(true);
+				//add(teamsPanel);
+				//panelon=teamsPanel;
 				revalidate();
 			}
 			if(homePanel.getChSchBtn()==e.getSource()) {
-				remove(homePanel);
-				add(schedulePanel);
-				panelon=schedulePanel;
+				//remove(homePanel);
+				//add(schedulePanel);
+				schedulePanel.setVisible(true);
+				setVisible(false);
+				//panelon=schedulePanel;
 				revalidate();
 			}
 			if(homePanel.getChPreMatch()==e.getSource()) {
@@ -112,7 +161,21 @@ public class GuiH extends JFrame implements Runnable,ActionListener{
 				panelon=statsPanel;
 				revalidate();
 			}
-		}
+		//end of homePanel
+		if(true) {
+			if(tourneyPanel.getBackBtn()==e.getSource()) {
+				//remove(tourneyPanel);
+				tourneyPanel.setVisible(false);
+				setVisible(true);
+				//add(homePanel);
+				panelon=homePanel;
+				revalidate();
+				
+				
+			}
+			
+			
+		} //end of tourneyPanel
 		
 	}
 
