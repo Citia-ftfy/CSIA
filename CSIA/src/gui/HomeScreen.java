@@ -1,137 +1,200 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
-
-import javax.swing.*;
-
-import csia.GuiH;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Component;
+import javax.swing.Box;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.SpringLayout;
 import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import javax.swing.SwingConstants;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import java.awt.Color;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 public class HomeScreen extends JPanel {
-	private BufferedImage back;
-	private Graphics g2d;
-	private GuiH guiH;
-	private JButton Tour; //B1
-	private JButton Teams; //B2
-	private JButton Schedule; //B3
-	private JButton Old; //B4
-	private JButton Quick; //B5
-	private JPanel Screen;
-
-	public HomeScreen(GuiH guiH) {
-		setBackground(Color.GREEN);
-		this.guiH=guiH;
-		back = null;
-		SpringLayout springLayout = new SpringLayout();
-		setLayout(springLayout);
-		
-		Tour = new JButton("Manage Tournaments");
-		Teams = new JButton("Manage Teams");
-		Schedule = new JButton("Check Schedule");
-		Old = new JButton("Check Previous Matches");
-		Quick = new JButton("Quick Start");
-		JPanel Bpanel = new JPanel();
-		Bpanel.setBackground(Color.RED);
-		springLayout.putConstraint(SpringLayout.NORTH, Bpanel, 5, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, Bpanel, 33, SpringLayout.NORTH, this);
-		Bpanel.setSize(getPreferredSize());
-		this.add(Bpanel);
-		GroupLayout gl_Bpanel = new GroupLayout(Bpanel);
-		gl_Bpanel.setHorizontalGroup(
-			gl_Bpanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_Bpanel.createSequentialGroup()
-					.addGap(5)
-					.addComponent(Tour)
-					.addGap(5)
-					.addComponent(Teams)
-					.addGap(5)
-					.addComponent(Schedule)
-					.addGap(5)
-					.addComponent(Old)
-					.addGap(5)
-					.addComponent(Quick))
-		);
-		gl_Bpanel.setVerticalGroup(
-			gl_Bpanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_Bpanel.createSequentialGroup()
-					.addGap(5)
-					.addGroup(gl_Bpanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(Tour)
-						.addComponent(Teams)
-						.addComponent(Schedule)
-						.addComponent(Old)
-						.addComponent(Quick)))
-		);
-		Bpanel.setLayout(gl_Bpanel);
-		Screen = new JPanel();
-		springLayout.putConstraint(SpringLayout.NORTH, Screen, 6, SpringLayout.SOUTH, Bpanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, Screen, -10, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, Bpanel, 0, SpringLayout.EAST, Screen);
-		springLayout.putConstraint(SpringLayout.WEST, Bpanel, 0, SpringLayout.WEST, Screen);
-		springLayout.putConstraint(SpringLayout.WEST, Screen, 10, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, Screen, -10, SpringLayout.EAST, this);
-		this.add(Screen);
-		Screen.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		Tour.addActionListener(guiH);
-		Teams.addActionListener(guiH);
-		Schedule.addActionListener(guiH);
-		Old.addActionListener(guiH);
-		Quick.addActionListener(guiH);
-		
-		
-		//revalidate();
-		//repaint();
+	private final Action action = new SwingAction();
+	private final Action action_1 = new SwingAction_1();
+	private final Action action_2 = new SwingAction_2();
+	private final Action action_3 = new SwingAction_3();
+	private final Action action_4 = new SwingAction_4();
+	private final Action action_5 = new SwingAction_5();
+	private ActionEvent bb;
+	private Boolean isBB=false;
+	public JButton getManTourBtn() {
+		return manTourBtn;
 	}
 
-	public void pain(Graphics g) {
-		Graphics2D twoDgraph = (Graphics2D) g;
-		if (back == null) {
-			back = (BufferedImage) (createImage(Screen.getWidth(), Screen.getHeight()));
-		}
-		g2d = back.createGraphics();
-		g2d.clearRect(getX(), getY(), Screen.getSize().width, Screen.getSize().height);
-		g2d.setColor(Color.black);
-		g2d.fill3DRect(0, 0, Screen.getSize().width, Screen.getSize().height,false);
-		g2d.drawString("ur gay dumb", 200, 200);
-
-		twoDgraph.drawImage(back, 0, 0, null);
+	public JButton getManTeamBtn() {
+		return manTeamBtn;
 	}
 
-	public Graphics getG2d() {
-		return g2d;
+	public JButton getChSchBtn() {
+		return chSchBtn;
+	}
+
+	public JButton getChPreMatch() {
+		return chPreMatch;
+	}
+
+	public JButton getQuickStart() {
+		return quickStart;
+	}
+
+	public JButton getChStats() {
+		return chStats;
+	}
+	private JButton manTourBtn;
+	private JButton manTeamBtn;
+	private JButton chSchBtn;
+	private JButton chPreMatch;
+	private JButton quickStart;
+	private JButton chStats;
+
+	/**
+	 * Create the panel.
+	 */
+	public HomeScreen() {
+		setBackground(new Color(255, 0, 0));
+		setLayout(new BorderLayout(0, 0));
+		System.out.println(this.getParent());
+		
+		JLabel lblNewLabel = new JLabel("Lamar Texans Water Polo Manager");
+		lblNewLabel.setBackground(new Color(255, 0, 0));
+		lblNewLabel.setForeground(new Color(0, 0, 128));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+		lblNewLabel.setFont(new Font("Autumn", Font.ITALIC, 40));
+		add(lblNewLabel, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 0, 0));
+		add(panel, BorderLayout.CENTER);
+		
+		manTourBtn = new JButton("Manage Tournaments");
+		manTourBtn.setForeground(new Color(255, 0, 0));
+		manTourBtn.setBackground(new Color(0, 0, 128));
+		manTourBtn.setAction(action);
+		panel.add(manTourBtn);
+		
+		manTeamBtn = new JButton("Manage Teams");
+		manTeamBtn.setForeground(new Color(255, 0, 0));
+		manTeamBtn.setBackground(new Color(0, 0, 128));
+		manTeamBtn.setAction(action_1);
+		panel.add(manTeamBtn);
+		
+		chSchBtn = new JButton("Check Schedule");
+		chSchBtn.setForeground(new Color(255, 0, 0));
+		chSchBtn.setBackground(new Color(0, 0, 128));
+		chSchBtn.setAction(action_2);
+		panel.add(chSchBtn);
+		
+		chPreMatch = new JButton("Check Previous Matches");
+		chPreMatch.setForeground(new Color(255, 0, 0));
+		chPreMatch.setBackground(new Color(0, 0, 128));
+		chPreMatch.setAction(action_3);
+		panel.add(chPreMatch);
+		
+		quickStart = new JButton("Quick Start");
+		quickStart.setForeground(new Color(255, 0, 0));
+		quickStart.setBackground(new Color(0, 0, 128));
+		quickStart.setAction(action_4);
+		panel.add(quickStart);
+		
+		chStats = new JButton("Statistics Breakdown");
+		chStats.setForeground(new Color(255, 0, 0));
+		chStats.setBackground(new Color(0, 0, 128));
+		chStats.setAction(action_5);
+		panel.add(chStats);
+
 	}
 	
-	public void screen(Object O) {
-		//TODO Figure out how to change screens
-		//new Painter(O);
-		
-		
+	public ActionEvent getBb() {
+		return bb;
+	}
+	
+
+	public Boolean getIsBB() {
+		return isBB;
 	}
 
-	public JButton getTour() {
-		return Tour;
+	public void setIsBB(Boolean isBB) {
+		this.isBB = isBB;
 	}
 
-	public JButton getTeams() {
-		return Teams;
-	}
 
-	public JButton getSchedule() {
-		return Schedule;
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "Manage Tournaments");
+			putValue(SHORT_DESCRIPTION, "Go to Tournament Manager");
+			
+		}
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("THIS WORKS IG");
+			bb=e;
+			isBB=true;
+		}
 	}
-
-	public JButton getOldMatch() {
-		return Old;
+	private class SwingAction_1 extends AbstractAction {
+		public SwingAction_1() {
+			putValue(NAME, "Manage Teams");
+			putValue(SHORT_DESCRIPTION, "Go to Team Manager");
+			
+		}
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Does IT");
+			bb=e;
+			isBB=true;
+		}
 	}
-
-	public JButton getQuick() {
-		return Quick;
+	private class SwingAction_2 extends AbstractAction {
+		public SwingAction_2() {
+			putValue(NAME, "Check Schedule");
+			putValue(SHORT_DESCRIPTION, "Look at Upcoming matches and Tournaments");
+		}
+		public void actionPerformed(ActionEvent e) {
+			bb=e;
+			isBB=true;
+		}
 	}
-
+	private class SwingAction_3 extends AbstractAction {
+		public SwingAction_3() {
+			putValue(NAME, "Check Previous Matches");
+			putValue(SHORT_DESCRIPTION, "Look at old Matches that just happened and their immediate breakdowns");
+		}
+		public void actionPerformed(ActionEvent e) {
+			bb=e;
+			isBB=true;
+		}
+	}
+	private class SwingAction_4 extends AbstractAction {
+		public SwingAction_4() {
+			putValue(NAME, "Quick Match");
+			putValue(SHORT_DESCRIPTION, "Start a new match now!");
+		}
+		public void actionPerformed(ActionEvent e) {
+			bb=e;
+			isBB=true;
+		}
+	}
+	private class SwingAction_5 extends AbstractAction {
+		public SwingAction_5() {
+			putValue(NAME, "Statistics Breakdown");
+			putValue(SHORT_DESCRIPTION, "Look at the stats recorded by this application");
+		}
+		public void actionPerformed(ActionEvent e) {
+			bb=e;
+			isBB=true;
+		}
+	}
 }
