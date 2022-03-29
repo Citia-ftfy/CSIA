@@ -13,7 +13,7 @@ public class CheckSchedule extends JFrame {
 	 * Create the panel.
 	 */
 	public CheckSchedule() {
-		setBounds(1000,500,200,500);
+		setBounds(1000,500,1132,232);
 		
 		table = new JTable();
 		table.setFillsViewportHeight(true);
