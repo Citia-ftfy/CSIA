@@ -9,6 +9,7 @@ public class Handler {
 		//Start GUI
 		gui = new GuiH(1000,800);
 		//Start Database Handler
+		//Lmao a change for no reason
 		DataH= new DatabaseH();
 		
 		
