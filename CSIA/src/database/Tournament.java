@@ -21,7 +21,7 @@ public class Tournament {
 		
 	}
 	
-	private ArrayList<Team> teamsetting() {
+	public ArrayList<Team> teamsetting() {
 		ArrayList<Team> temp = new ArrayList<Team>();
 		lamar = new Team(new ArrayList<Player>() {
 			{
